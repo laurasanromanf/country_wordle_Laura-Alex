@@ -53,5 +53,5 @@ Para clonar y ejecutar este proyecto en tu máquina, necesitas tener [Node.js](h
 
 ## 👥 Autores
 
-- **Tu Nombre** - [GitHub](https://github.com/adguez27) | [LinkedIn](www.linkedin.com/in/alex-domínguez-andré)
+- **Alex** - [GitHub](https://github.com/adguez27) | [LinkedIn](www.linkedin.com/in/alex-domínguez-andré)
 - **Laura** - [GitHub](https://github.com/laurasanromanf)
