@@ -1,13 +1,142 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>country-wordle-laura-alex</title>
+    <meta name="theme-color" content="#f5f7fa" />
+    <meta
+      name="description"
+      content="Pon a prueba tus conocimientos de geografía con Countryle. ¿Puedes adivinar el país?"
+    />
+    <title>Countryle — Adivina el país</title>
+    <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
+
   <body>
-    <div id="app"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Countryle, inicio">
+        COUNTRYLE<span class="brand-dot">.</span>
+      </a>
+
+      <nav class="header-actions" aria-label="Opciones del juego">
+        <button
+          id="btn-help"
+          class="icon-button"
+          type="button"
+          aria-label="Cómo jugar"
+          title="Cómo jugar"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="21"
+            height="21"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M9.6 9a2.5 2.5 0 0 1 4.8.9c0 1.8-2.4 2.1-2.4 3.8" />
+            <path d="M12 17h.01" />
+          </svg>
+        </button>
+
+        <button
+          id="btn-stats"
+          class="icon-button"
+          type="button"
+          aria-label="Estadísticas"
+          title="Estadísticas"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="21"
+            height="21"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 19V5" />
+            <path d="M4 19h16" />
+            <rect x="7" y="11" width="3" height="5" rx="0.8" />
+            <rect x="12" y="7" width="3" height="9" rx="0.8" />
+            <rect x="17" y="4" width="3" height="12" rx="0.8" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <main id="app">
+      <section class="game-intro" aria-labelledby="game-title">
+        <span class="game-eyebrow">THE DAILY GEOGRAPHY GAME</span>
+        <h1 id="game-title" class="game-title">Countryle</h1>
+        <p class="game-description">
+          Un país. Unos cuantos intentos. ¿Cuánto sabes del mundo?
+        </p>
+      </section>
+
+      <section
+        id="input-container"
+        class="input-area"
+        aria-label="Adivinar un país"
+      >
+        <label class="visually-hidden" for="country-search">
+          Nombre del país
+        </label>
+
+        <input
+          type="text"
+          id="country-search"
+          placeholder="Escribe un país..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+
+        <button id="btn-guess" type="button">
+          Adivinar
+          <svg
+            viewBox="0 0 24 24"
+            width="17"
+            height="17"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </button>
+      </section>
+
+      <section
+        id="board-container"
+        class="board"
+        aria-label="Historial de intentos"
+        aria-live="polite"
+      ></section>
+    </main>
+
+    <dialog id="game-modal" aria-labelledby="modal-title">
+      <div id="modal-content"></div>
+
+      <button id="btn-close-modal" type="button">Cerrar</button>
+    </dialog>
+
+    <footer class="site-footer">
+      <p>
+        Desarrollado por
+        <span>Laura</span> &amp; <span>Alex</span>
+      </p>
+    </footer>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
