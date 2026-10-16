@@ -1,4 +1,4 @@
-# 🌍 Countryle
+# 🌍 Worldle
 
 ¡Un juego estilo Pokedle / Wordle diario basado en países! Adivina el país del día utilizando pistas como el continente, la población, la superficie y los colores de la bandera.
 
@@ -23,22 +23,26 @@ Este proyecto está construido con los estándares modernos de desarrollo fronte
 Para clonar y ejecutar este proyecto en tu máquina, necesitas tener [Node.js](https://nodejs.org/) instalado.
 
 1. **Clonar el repositorio:**
+
    ```bash
    git clone https://github.com/laurasanromanf/country_wordle_Laura-Alex.git
-   cd countryle
+   cd country_wordle_Laura-Alex
    ```
 
 2. **Instalar las dependencias:**
+
    ```bash
    npm install
    ```
 
 3. **Configurar variables de entorno:**
    Copia el archivo de ejemplo y renómbralo a `.env`:
+
    ```bash
    cp .env.example .env
    ```
-   *(Asegúrate de que la variables API y API KEY apuntan correctamente).*
+
+   _(Asegúrate de que la variables API y API KEY apuntan correctamente)._
 
 4. **Arrancar el servidor de desarrollo:**
    ```bash
