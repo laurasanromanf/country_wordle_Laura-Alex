@@ -9,19 +9,19 @@ import { getCountry } from './services/countryService.js';
 let gameState = {};
 
 async function initGame() {
-  // 2. Comprobar si el estado está vacío al cargar la página[cite: 14]
+  // 2. Comprobar si el estado está vacío al cargar la página
   if (Object.keys(gameState).length === 0) {
     
-    // 3. Usar random para escoger un index basado en la longitud del dataset[cite: 14]
+    // 3. Usar random para escoger un index basado en la longitud del dataset
     const index = getDailyRandomIndex(countries.length);
     
-    // 4. Sacar el nombre del país del JSON de datos usando el index[cite: 14]
+    // 4. Sacar el nombre del país del JSON de datos usando el index
     const targetCountryName = countries[index];
     
-    // 5. Llamar a la API para obtener el JSON del país[cite: 14]
+    // 5. Llamar a la API para obtener el JSON del país
     const countryData = await getCountry(targetCountryName);
     
-    // 6. Almacenar los datos devueltos en nuestro JSON vacío[cite: 14]
+    // 6. Almacenar los datos devueltos en nuestro JSON vacío
     if (countryData) {
       gameState = countryData;
       console.log("Datos del país cargados en el estado:", gameState);
