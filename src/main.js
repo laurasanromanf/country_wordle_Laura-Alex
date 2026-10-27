@@ -1,6 +1,5 @@
 import './css/main.css';
-
-// Importamos los datos y funciones que creaste en las tareas anteriores
+import { evaluateGuess } from './services/guessService.js';
 import countries from './data/countries.json';
 import { getDailyRandomIndex } from './utils/randomIndex.js';
 import { getCountry } from './services/countryService.js';
@@ -25,6 +24,10 @@ async function initGame() {
     if (countryData) {
       gameState = countryData;
       gameState.name = targetCountryName;
+      console.log('Datos del país objetivo:', gameState);
+      const result = await evaluateGuess('Kiribati', gameState);
+
+      console.log('Resultado del intento:', result);
     }
   }
 }
