@@ -1,6 +1,5 @@
 import './css/main.css';
 import { evaluateGuess } from './services/guessService.js';
-import { evaluateGuess } from './services/guessService.js';
 import countries from './data/countries.json';
 import { getDailyRandomIndex } from './utils/randomIndex.js';
 import { getCountry } from './services/countryService.js';
