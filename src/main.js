@@ -1,34 +1,79 @@
 import './css/main.css';
-
-// Importamos los datos y funciones que creaste en las tareas anteriores
+import { evaluateGuess } from './services/guessService.js';
 import countries from './data/countries.json';
 import { getDailyRandomIndex } from './utils/randomIndex.js';
 import { getCountry } from './services/countryService.js';
-import { filterCountries } from './utils/autocomplete.js';
+import { renderGuess } from './utils/renderGuess.js';
 
-// 1. Crear el objeto JSON vacío para guardar los datos del país
+// Estado del juego: contiene los datos del país objetivo.
 let gameState = {};
 
+// Referencias a los elementos de la interfaz.
+const countryInput = document.querySelector('#country-search');
+const guessButton = document.querySelector('#btn-guess');
+const boardContainer = document.querySelector('#board-container');
+const guessError = document.querySelector('#guess-error');
+
+// Inicializa el juego y carga el país del día.
 async function initGame() {
-  // 2. Comprobar si el estado está vacío al cargar la página
-  if (Object.keys(gameState).length === 0) {
-    // 3. Usar random para escoger un index basado en la longitud del dataset
-    const index = getDailyRandomIndex(countries.length);
+  const index = getDailyRandomIndex(countries.length);
+  const targetCountryName = countries[index];
 
-    // 4. Sacar el nombre del país del JSON de datos usando el index
-    const targetCountryName = countries[index];
+  const countryData = await getCountry(targetCountryName);
 
-    // 5. Llamar a la API para obtener el JSON del país
-    const countryData = await getCountry(targetCountryName);
+  if (!countryData) {
+    throw new Error('No se han podido cargar los datos del país objetivo.');
+  }
 
-    // 6. Almacenar los datos devueltos en nuestro JSON vacío
-    if (countryData) {
-      gameState = countryData;
-      gameState.name = targetCountryName;
+  gameState = {
+    ...countryData,
+    name: targetCountryName,
+  };
+}
+
+// Procesa un intento del jugador.
+async function handleGuess() {
+  const countryName = countryInput.value.trim();
+
+  if (!countryName) return;
+
+  // Evita que se envíen varios intentos simultáneamente.
+  guessButton.disabled = true;
+  guessError.textContent = '';
+
+  try {
+    // Espera a que el país objetivo esté cargado.
+    await gameReady;
+    if (!gameState.name) {
+      throw new Error('El juego todavía no está disponible.');
     }
+    // Evalúa el país introducido.
+    const result = await evaluateGuess(countryName, gameState);
+
+    // Muestra el resultado en el historial.
+    renderGuess(result, boardContainer);
+
+    // Limpia el campo solo si el intento se ha procesado correctamente.
+    countryInput.value = '';
+    countryInput.focus();
+  } catch (error) {
+    guessError.textContent = error.message;
+  } finally {
+    guessButton.disabled = false;
   }
 }
 
+// Registra los eventos de la interfaz.
+guessButton.addEventListener('click', handleGuess);
 
-initGame();
+countryInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    handleGuess();
+  }
+});
 
+const gameReady = initGame().catch((error) => {
+  guessError.textContent = error.message;
+  return null;
+});
