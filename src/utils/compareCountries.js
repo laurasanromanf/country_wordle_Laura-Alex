@@ -51,21 +51,33 @@ function compareFlagColors(attempted, target) {
   const targetColors = getFlagColors(target);
 
   if (!attemptedColors.length || !targetColors.length) {
-    return 'gray';
+    return {
+      color: 'gray',
+      correctCount: 0,
+      totalCount: targetColors.length,
+    };
   }
 
   const commonColors = attemptedColors.filter((color) =>
     targetColors.includes(color)
   );
 
+  let color = 'gray';
+
   if (
     attemptedColors.length === targetColors.length &&
     commonColors.length === targetColors.length
   ) {
-    return 'green';
+    color = 'green';
+  } else if (commonColors.length > 0) {
+    color = 'orange';
   }
 
-  return commonColors.length > 0 ? 'orange' : 'gray';
+  return {
+    color,
+    correctCount: commonColors.length,
+    totalCount: targetColors.length,
+  };
 }
 
 export function compareCountries(target, attempted, attemptedName) {
@@ -81,6 +93,8 @@ export function compareCountries(target, attempted, attemptedName) {
     attempted.population,
     target.population
   );
+
+  const flagComparison = compareFlagColors(attempted, target);
 
   return [
     {
@@ -105,7 +119,7 @@ export function compareCountries(target, attempted, attemptedName) {
     {
       field: 'flagColors',
       value: getFlagColors(attempted),
-      color: compareFlagColors(attempted, target),
+      ...flagComparison,
     },
     {
       field: 'coastal',
