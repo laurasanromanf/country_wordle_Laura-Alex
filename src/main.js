@@ -4,6 +4,7 @@ import './css/main.css';
 import countries from './data/countries.json';
 import { getDailyRandomIndex } from './utils/randomIndex.js';
 import { getCountry } from './services/countryService.js';
+import { filterCountries } from './utils/autocomplete.js';
 
 // 1. Crear el objeto JSON vacío para guardar los datos del país
 let gameState = {};
@@ -28,9 +29,6 @@ async function initGame() {
   }
 }
 
+
 initGame();
 
-import heroImg from './assets/hero.png';
-import javascriptLogo from './assets/javascript.svg';
-import viteLogo from './assets/vite.svg';
-import { setupCounter } from './counter.js';
