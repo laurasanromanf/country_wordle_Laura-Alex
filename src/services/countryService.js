@@ -1,26 +1,48 @@
 export async function getCountry(countryName) {
-  // Llama a la URL que guardaste en el .env
   const baseUrl = import.meta.env.VITE_API_URL;
   const apiKey = import.meta.env.VITE_API_KEY;
 
+  const normalize = (name) =>
+    String(name ?? '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLocaleLowerCase('es');
+
   try {
-    // Hace la petición a la API concatenando la URL base y el nombre del país
-    const response = await fetch(
-      `${baseUrl}${countryName}+&response_fields=region,area.kilometers,flag.colors.palette,landlocked,population`,
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-      }
-    );
+    const url =
+      `${baseUrl}?q=${encodeURIComponent(countryName)}` +
+      '&response_fields=names,region,area.kilometers,flag.colors.palette,landlocked,population';
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
 
     if (!response.ok) {
-      throw new Error('Error al conectar con la API');
+      throw new Error(`Error de la API: ${response.status}`);
     }
 
     const data = await response.json();
+    const countries = data.data?.objects ?? [];
+    const searchedName = normalize(countryName);
 
-    return data.data.objects[0]; // Devuelve los datos del primer país que coincida
+    // Buscar exclusivamente coincidencia exacta en la traducción española.
+    const country = countries.find((item) => {
+      const spanishNames = item.names?.translations?.spa;
+
+      if (!spanishNames) {
+        return false;
+      }
+
+      return (
+        normalize(spanishNames.common) === searchedName ||
+        normalize(spanishNames.official) === searchedName
+      );
+    });
+
+    return country ?? null;
   } catch (error) {
     console.error('Hubo un problema con la petición:', error);
     return null;
